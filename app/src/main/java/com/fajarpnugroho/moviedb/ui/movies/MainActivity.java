@@ -8,7 +8,6 @@ import com.fajarpnugroho.moviedb.Injector;
 import com.fajarpnugroho.moviedb.R;
 import com.fajarpnugroho.moviedb.api.ServiceConfig;
 import com.fajarpnugroho.moviedb.api.service.MovieService;
-import com.fajarpnugroho.moviedb.model.response.Movie;
 import com.fajarpnugroho.moviedb.model.response.PopularResponse;
 
 import javax.inject.Inject;
@@ -38,9 +37,8 @@ public class MainActivity extends BaseActivity {
                 if (response.isSuccess()) {
                     Timber.v("SUCCESS");
                     PopularResponse popularResponse = response.body();
-                    for (Movie movie : popularResponse.results) {
-                        Toast.makeText(MainActivity.this, movie.title, Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(MainActivity.this, String.valueOf(popularResponse.page),
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     // STATUS CODE 400
                     Timber.e("ERROR!!");
