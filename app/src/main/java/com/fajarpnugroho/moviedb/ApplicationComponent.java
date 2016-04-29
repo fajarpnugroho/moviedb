@@ -1,7 +1,7 @@
 package com.fajarpnugroho.moviedb;
 
 import com.fajarpnugroho.moviedb.api.ApiModule;
-import com.fajarpnugroho.moviedb.ui.movies.MainActivity;
+import com.fajarpnugroho.moviedb.ui.movies.MoviesFragment;
 
 import javax.inject.Singleton;
 
@@ -12,5 +12,5 @@ import dagger.Component;
         ApplicationModule.class, ApiModule.class
 })
 public interface ApplicationComponent {
-        void inject(MainActivity mainActivity);
+        void inject(MoviesFragment moviesFragment);
 }
