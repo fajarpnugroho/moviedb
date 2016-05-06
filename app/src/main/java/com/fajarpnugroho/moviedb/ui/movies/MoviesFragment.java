@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 
 import com.fajarpnugroho.moviedb.Injector;
 import com.fajarpnugroho.moviedb.R;
-import com.fajarpnugroho.moviedb.model.response.PopularResponse;
+import com.fajarpnugroho.moviedb.model.response.MoviesResponse;
 import com.fajarpnugroho.moviedb.presenter.MainPresenter;
 import com.fajarpnugroho.moviedb.ui.BaseFragment;
 
@@ -23,20 +23,23 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MoviesFragment extends BaseFragment implements MainView {
+public class MoviesFragment extends BaseFragment implements MainView, SortableFragment {
 
     public static final int SPAN_COUNT = 2;
-    public static final int ITEM_SPACE = 16;
+
+    private static final String DEFAULT_SORT = "popular";
+    public static final String KEY_SORT = "key_sort";
+
     @Bind(R.id.recyclerview) RecyclerView recyclerView;
     @Bind(R.id.loading) ProgressBar loadingView;
 
     @Inject MainPresenter presenter;
 
     private MoviesAdapter adapter;
+    private String sort;
 
     public static MoviesFragment newInstance() {
-        MoviesFragment fragment = new MoviesFragment();
-        return fragment;
+        return new MoviesFragment();
     }
 
     @Override
@@ -69,7 +72,19 @@ public class MoviesFragment extends BaseFragment implements MainView {
         adapter = new MoviesAdapter();
         recyclerView.setAdapter(adapter);
 
-        presenter.loadMovie();
+        if (savedInstanceState == null) {
+            sort = DEFAULT_SORT;
+        } else {
+            sort = savedInstanceState.getString(KEY_SORT);
+        }
+
+        presenter.loadMovie(sort);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(KEY_SORT, sort);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -82,8 +97,8 @@ public class MoviesFragment extends BaseFragment implements MainView {
     }
 
     @Override
-    public void loadData(PopularResponse popularResponse) {
-        adapter.setMovies(popularResponse.results);
+    public void showListMovies(MoviesResponse popularResponse) {
+        adapter.setMoviesData(popularResponse.results);
     }
 
     @Override
@@ -92,10 +107,15 @@ public class MoviesFragment extends BaseFragment implements MainView {
                 .setAction(R.string.label_retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        presenter.loadMovie();
+                        presenter.loadMovie(sort);
                     }
                 })
                 .show();
     }
 
+    @Override
+    public void sortMovie(String sort) {
+        this.sort = sort;
+        presenter.loadMovie(sort);
+    }
 }

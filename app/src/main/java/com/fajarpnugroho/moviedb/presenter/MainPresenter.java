@@ -2,7 +2,7 @@ package com.fajarpnugroho.moviedb.presenter;
 
 import com.fajarpnugroho.moviedb.api.ServiceConfig;
 import com.fajarpnugroho.moviedb.api.service.MovieService;
-import com.fajarpnugroho.moviedb.model.response.PopularResponse;
+import com.fajarpnugroho.moviedb.model.response.MoviesResponse;
 import com.fajarpnugroho.moviedb.ui.movies.MainView;
 
 import javax.inject.Inject;
@@ -25,18 +25,18 @@ public class MainPresenter {
         this.mainView = mainView;
     }
 
-    public void loadMovie() {
+    public void loadMovie(String sort) {
         if (mainView != null) {
             mainView.onLoading(true);
 
-            Call<PopularResponse> call = movieService.popular(ServiceConfig.API_KEY);
-            call.enqueue(new Callback<PopularResponse>() {
+            Call<MoviesResponse> call = movieService.listOfMovie(sort, ServiceConfig.API_KEY);
+            call.enqueue(new Callback<MoviesResponse>() {
                 @Override
-                public void onResponse(Response<PopularResponse> response, Retrofit retrofit) {
+                public void onResponse(Response<MoviesResponse> response, Retrofit retrofit) {
                     mainView.onLoading(false);
                     if (response.isSuccess()) {
                         // STATUS 200
-                        mainView.loadData(response.body());
+                        mainView.showListMovies(response.body());
                     } else {
                         // STATUS 400
                         mainView.showError(response.message());

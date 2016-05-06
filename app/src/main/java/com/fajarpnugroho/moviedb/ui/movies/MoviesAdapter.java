@@ -24,8 +24,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private List<Movie> movies = new ArrayList<>();
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setMoviesData(List<Movie> movies) {
+        this.movies.clear();
+        this.movies.addAll(movies);
         notifyDataSetChanged();
     }
 
