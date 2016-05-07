@@ -1,6 +1,7 @@
 package com.fajarpnugroho.moviedb.ui.movies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,9 +15,13 @@ import android.widget.ProgressBar;
 
 import com.fajarpnugroho.moviedb.Injector;
 import com.fajarpnugroho.moviedb.R;
+import com.fajarpnugroho.moviedb.model.response.Movie;
 import com.fajarpnugroho.moviedb.model.response.MoviesResponse;
 import com.fajarpnugroho.moviedb.presenter.MainPresenter;
 import com.fajarpnugroho.moviedb.ui.BaseFragment;
+import com.fajarpnugroho.moviedb.ui.movie.DetailActivity;
+import com.fajarpnugroho.moviedb.utils.Constants;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -34,6 +39,7 @@ public class MoviesFragment extends BaseFragment implements MainView, SortableFr
     @Bind(R.id.loading) ProgressBar loadingView;
 
     @Inject MainPresenter presenter;
+    @Inject Gson gson;
 
     private MoviesAdapter adapter;
     private String sort;
@@ -70,6 +76,16 @@ public class MoviesFragment extends BaseFragment implements MainView, SortableFr
         recyclerView.setLayoutManager(gridLayoutManager);
 
         adapter = new MoviesAdapter();
+
+        adapter.setOnClickListener(new MoviesAdapter
+                .OnClickListener() {
+            @Override
+            public void onItemClickListener(long id,
+                                            Movie movie) {
+                openMovieDetail(id, movie);
+            }
+        });
+
         recyclerView.setAdapter(adapter);
 
         if (savedInstanceState == null) {
@@ -79,6 +95,17 @@ public class MoviesFragment extends BaseFragment implements MainView, SortableFr
         }
 
         presenter.loadMovie(sort);
+    }
+
+    private void openMovieDetail(long id, Movie movie) {
+        String movieJson = gson.toJson(movie);
+
+        Intent intent = new Intent(getActivity(),
+                DetailActivity.class);
+        intent.putExtra(Constants.EXTRA_MOVIE_ID, id);
+        intent.putExtra(Constants.EXTRA_MOVIE_DATA,
+                movieJson);
+        getActivity().startActivity(intent);
     }
 
     @Override

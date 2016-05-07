@@ -14,7 +14,10 @@ import com.fajarpnugroho.moviedb.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends BaseActivity implements
+        AdapterView.OnItemSelectedListener {
+
+    public static final String FRAGMENT_MOVIES_TAG = "FragmentMoviesTag";
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.spinner) Spinner spinner;
@@ -30,14 +33,20 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.content, MoviesFragment.newInstance(), "FragmentMoviesTag").commit();
+                    .add(R.id.content, MoviesFragment.newInstance(),
+                            FRAGMENT_MOVIES_TAG).commit();
         }
     }
 
     private void setupSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.sort,
-                android.R.layout.simple_spinner_item);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter
+                .createFromResource(this,
+                        R.array.sort,
+                        android.R.layout.simple_spinner_item);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
     }
@@ -53,7 +62,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemSele
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selectedSort = getSortByPosition(position);
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("FragmentMoviesTag");
+
+        Fragment fragment = getSupportFragmentManager()
+                .findFragmentByTag(FRAGMENT_MOVIES_TAG);
+
         ((SortableFragment) fragment).sortMovie(selectedSort);
     }
 

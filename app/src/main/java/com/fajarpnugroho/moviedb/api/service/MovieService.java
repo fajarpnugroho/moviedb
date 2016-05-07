@@ -1,5 +1,6 @@
 package com.fajarpnugroho.moviedb.api.service;
 
+import com.fajarpnugroho.moviedb.model.response.Movie;
 import com.fajarpnugroho.moviedb.model.response.MoviesResponse;
 
 import retrofit.Call;
@@ -30,4 +31,7 @@ public interface MovieService {
     @GET("movie/{sort}")
     Call<MoviesResponse> listOfMovie(@Path("sort") String sort,
                                      @Query("api_key") String apiKey);
+
+    @GET("movie/{id}")
+    Call<Movie> detailMovie(@Path("id") int id);
 }

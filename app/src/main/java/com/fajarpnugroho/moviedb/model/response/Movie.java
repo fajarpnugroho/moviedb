@@ -10,10 +10,11 @@ public class Movie {
     public final double popularity;
     public final int voteCount;
     public final double voteAverage;
+    public final String tagline;
 
     public Movie(String posterPath, String overview, String releaseDate, long id,
                  String originalTitle, String title, double popularity, int voteCount,
-                 int voteAverage) {
+                 int voteAverage, String tagline) {
         this.posterPath = posterPath;
         this.overview = overview;
         this.releaseDate = releaseDate;
@@ -23,5 +24,6 @@ public class Movie {
         this.popularity = popularity;
         this.voteCount = voteCount;
         this.voteAverage = voteAverage;
+        this.tagline = tagline;
     }
 }

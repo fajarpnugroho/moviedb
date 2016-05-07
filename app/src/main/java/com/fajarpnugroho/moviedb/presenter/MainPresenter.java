@@ -1,24 +1,22 @@
 package com.fajarpnugroho.moviedb.presenter;
 
-import com.fajarpnugroho.moviedb.api.ServiceConfig;
-import com.fajarpnugroho.moviedb.api.service.MovieService;
+import com.fajarpnugroho.moviedb.model.MovieModel;
 import com.fajarpnugroho.moviedb.model.response.MoviesResponse;
 import com.fajarpnugroho.moviedb.ui.movies.MainView;
 
 import javax.inject.Inject;
 
-import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
 public class MainPresenter {
     private MainView mainView;
-    private MovieService movieService;
+    private MovieModel movieModel;
 
     @Inject
-    public MainPresenter(MovieService movieService) {
-        this.movieService = movieService;
+    public MainPresenter(MovieModel movieModel) {
+        this.movieModel = movieModel;
     }
 
     public void initView(MainView mainView) {
@@ -29,8 +27,7 @@ public class MainPresenter {
         if (mainView != null) {
             mainView.onLoading(true);
 
-            Call<MoviesResponse> call = movieService.listOfMovie(sort, ServiceConfig.API_KEY);
-            call.enqueue(new Callback<MoviesResponse>() {
+            movieModel.listMovies(sort, new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Response<MoviesResponse> response, Retrofit retrofit) {
                     mainView.onLoading(false);
@@ -51,5 +48,4 @@ public class MainPresenter {
             });
         }
     }
-
 }
