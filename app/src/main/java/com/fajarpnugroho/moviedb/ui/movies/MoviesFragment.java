@@ -19,7 +19,7 @@ import com.fajarpnugroho.moviedb.model.response.Movie;
 import com.fajarpnugroho.moviedb.model.response.MoviesResponse;
 import com.fajarpnugroho.moviedb.presenter.MainPresenter;
 import com.fajarpnugroho.moviedb.ui.BaseFragment;
-import com.fajarpnugroho.moviedb.ui.movie.DetailActivity;
+import com.fajarpnugroho.moviedb.ui.movie.MovieDetail;
 import com.fajarpnugroho.moviedb.utils.Constants;
 import com.google.gson.Gson;
 
@@ -101,7 +101,7 @@ public class MoviesFragment extends BaseFragment implements MainView, SortableFr
         String movieJson = gson.toJson(movie);
 
         Intent intent = new Intent(getActivity(),
-                DetailActivity.class);
+                MovieDetail.class);
         intent.putExtra(Constants.EXTRA_MOVIE_ID, id);
         intent.putExtra(Constants.EXTRA_MOVIE_DATA,
                 movieJson);

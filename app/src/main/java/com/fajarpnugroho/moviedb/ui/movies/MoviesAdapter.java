@@ -46,7 +46,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder instanceof MovieViewHolder) {
             MovieViewHolder movieViewHolder = (MovieViewHolder) holder;
             Uri uri = ImageUtils.movieUrl(ImageSize.w185.getValue(),
-                    movies.get(position).posterPath.replace("/",""));
+                    movies.get(position).posterPath);
             movieViewHolder.bind(uri.toString(), movies.get(position).releaseDate);
             movieViewHolder.setItemClickListener(onClickListener, movies.get(position));
         }
